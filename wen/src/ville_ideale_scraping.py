@@ -1,6 +1,10 @@
 import requests
 import urllib
 import re
+# from bs4 import BeautifulSoup
+from lxml import html
+from unidecode import unidecode
+
 from random_user_agent.user_agent import UserAgent
 from random_user_agent.params import SoftwareName, OperatingSystem
 from random import random
@@ -9,14 +13,14 @@ from typing import (List)
 
 class proxyExecution():
 
-    def __init__(self, url: str= None):
+    def __init__(self, url: str= None, save_path: str= "../data/web_scraping/proxy_list.txt"):
 
         if url == None:
             self.url = "https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt"
         else:
             self.url= url
 
-        self.save_path= "../data/web_scraping/proxy_list.txt"
+        self.save_path= save_path
         self.listed_proxy= []
         self.good_prox= []
         pass
@@ -92,6 +96,7 @@ class villeIdealScraper():
         self.r= None
         self.proxy_list= None
         self.random_proxy_list= None
+        self.page= None
         pass
 
     def __generate_random_proxy(self) -> str:
@@ -134,9 +139,42 @@ class villeIdealScraper():
         # self.page= r.get()
         pass
 
-    def scrap(self, arr: int, anonymous: bool= True):
-        if anonymous:
+    def __generate_good_url(self, arr: int) -> str:
+        return self.base_url + "_751" + str(arr)
+
+    # @tailrec
+    def __activate_valide_scraper(self, url: str, verbose: bool= True):
+        try:
             self.__scrap_invisble()
+            self.page= self.r.get(url)
+        except:
+            if verbose:
+                print("Not a good proxy")
+            self.__activate_valide_scraper(url= url)
+        pass
+
+    def scrap(self, arr: int, anonymous: bool= True):
+        global list_result
+        pattern= re.compile("([\D]*)(\d{1}\S\d*)") # allow to separate col names and grades
+
+        if anonymous: # work only with anonymous (flemme)
+            url= self.__generate_good_url(arr= arr)
+            self.__activate_valide_scraper(url= url)
+
+            tree = html.fromstring(self.page.content)
+            global_note = tree.xpath('//p[@id="ng"]/text()')
+            table_note = tree.xpath('//table[@id="tablonotes"]//tr')
+
+            dict_result= {}
+            for t in table_note:
+                row= t.text_content()
+                list_result= [res for res in pattern.split(row) if res != '']
+                dict_result[list_result[0]]= list_result[1]
+
+            # add global grade
+            dict_result["Note global"]= global_note[0]
+
+            return dict_result
 
 
         pass
@@ -152,5 +190,6 @@ if __name__ == '__main__':
     scraper.proxy_list= proxy_list
     # test
     arr= 13
-    scraper.scrap(arr= arr)
+    score= scraper.scrap(arr)
+    print(score)
 
