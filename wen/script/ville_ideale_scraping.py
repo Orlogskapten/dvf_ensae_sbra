@@ -8,7 +8,7 @@ from unidecode import unidecode
 from random_user_agent.user_agent import UserAgent
 from random_user_agent.params import SoftwareName, OperatingSystem
 from random import random
-from typing import (List)
+from typing import (List, Dict)
 
 
 class proxyExecution():
@@ -25,7 +25,7 @@ class proxyExecution():
         self.good_prox= []
         pass
 
-    def __collect_proxy_list(self):
+    def __collect_proxy_list(self) -> None:
         urllib.request.urlretrieve(self.url, self.save_path)
 
         f = open(self.save_path, "r")
@@ -140,10 +140,10 @@ class villeIdealScraper():
         pass
 
     def __generate_good_url(self, arr: int) -> str:
-        return self.base_url + "_751" + str(arr)
+        return self.base_url + "_751{}".format(str(arr).zfill(2))
 
     # @tailrec
-    def __activate_valide_scraper(self, url: str, verbose: bool= True):
+    def __activate_valide_scraper(self, url: str, verbose: bool= True) -> None:
         try:
             self.__scrap_invisble()
             self.page= self.r.get(url)
@@ -153,7 +153,7 @@ class villeIdealScraper():
             self.__activate_valide_scraper(url= url)
         pass
 
-    def scrap(self, arr: int, anonymous: bool= True):
+    def scrap(self, arr: int, anonymous: bool= True) -> Dict[str, List[str]]:
         global list_result
         pattern= re.compile("([\D]*)(\d{1}\S\d*)") # allow to separate col names and grades
 
@@ -165,31 +165,17 @@ class villeIdealScraper():
             global_note = tree.xpath('//p[@id="ng"]/text()')
             table_note = tree.xpath('//table[@id="tablonotes"]//tr')
 
-            dict_result= {}
+            dict_result= {"Arrondissement": [arr]}
             for t in table_note:
                 row= t.text_content()
                 list_result= [res for res in pattern.split(row) if res != '']
-                dict_result[list_result[0]]= list_result[1]
+                dict_result[list_result[0]]= [list_result[1]]
 
             # add global grade
-            dict_result["Note global"]= global_note[0]
+            dict_result["Note global"]= [global_note[0]]
+
 
             return dict_result
-
-
+        else:
+            print("Nono")
         pass
-
-
-
-if __name__ == '__main__':
-
-    obj= proxyExecution()
-    proxy_list= obj.collect()
-
-    scraper= villeIdealScraper()
-    scraper.proxy_list= proxy_list
-    # test
-    arr= 13
-    score= scraper.scrap(arr)
-    print(score)
-
