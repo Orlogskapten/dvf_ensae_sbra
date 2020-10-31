@@ -11,7 +11,7 @@ from typing import (List, Dict)
 
 class proxyExecution():
 
-    def __init__(self, url: str= None, save_path: str= "../data/web_scraping/proxy_list.txt"):
+    def __init__(self, url: str= None, save_path: str= "../good_data/web_scraping/proxy_list.txt"):
 
         if url == None:
             self.url = "https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt"

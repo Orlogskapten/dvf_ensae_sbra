@@ -18,18 +18,18 @@ if __name__ == '__main__':
             reactivation_function()
 
     past_score= pd.DataFrame()
-    for arr in [9, 14, 15, 16, 17, 18, 19]:#: # there are 20 arrondissements in paris
+    for arr in range(20):#: # there are 20 arrondissements in paris
         arr+= 1
         print("Arrondissement num {}".format(arr))
         # score= reactivation_function()
         score= scraper.scrap(arr)
 
         new_score= pd.DataFrame.from_dict(score)
-        new_score.to_csv("../data/saved/score_{}.csv".format(arr), index=False) # we never know
+        # new_score.to_csv("../good_data/saved/score_{}.csv".format(arr), index=False) # we never know
         past_score= pd.concat([past_score
                                   , new_score]).reset_index(drop=True)
 
         print("Time to sleep (10s)")
         time.sleep(10)
 
-    # past_score.to_csv("../data/saved/score_per_arr.csv", index=False)
+    past_score.to_csv("../good_data/saved/score_per_arr.csv", index=False)

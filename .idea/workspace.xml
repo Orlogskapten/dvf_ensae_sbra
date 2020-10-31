@@ -20,8 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d2720b3a-d3ae-4183-9f2e-8ae74377a8cf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/wen/script/ville_ideale_scraping.py" beforeDir="false" afterPath="$PROJECT_DIR$/wen/script/ville_ideale_scraping.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wen/script/ville_ideale_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/wen/script/ville_ideale_script.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebook/analysis_and_treat.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebook/analysis_and_treat.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/ville_ideale_scraping.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/ville_ideale_scraping.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/ville_ideale_script.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/ville_ideale_script.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +59,7 @@
       </console-settings>
     </option>
   </component>
-  <component name="RunManager" selected="Python.ville_ideale_script">
+  <component name="RunManager" selected="Python.ville_ideale_script (1)">
     <configuration name="Python Console" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="dvf" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -106,6 +108,9 @@
       <module name="dvf" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/wen/script" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -143,6 +148,25 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="ville_ideale_script (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="dvf" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/ville_ideale_script.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="ville_ideale_script" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -167,6 +191,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.ville_ideale_script (1)" />
         <item itemvalue="Python.ville_ideale_script" />
         <item itemvalue="Python.ville_ideale_scraping (1)" />
         <item itemvalue="Python.Python Console" />
@@ -188,6 +213,7 @@
       <workItem from="1604087036494" duration="8472000" />
       <workItem from="1604129865776" duration="131000" />
       <workItem from="1604130403792" duration="8967000" />
+      <workItem from="1604176483150" duration="603000" />
     </task>
     <servers />
   </component>
