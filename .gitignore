@@ -15,6 +15,7 @@ ipython_config.py
 
 # Personal
 */.idea/*
+.idea/*
 */data/*
 
 # Remove previous ipynb_checkpoints
