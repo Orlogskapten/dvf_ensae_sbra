@@ -1,0 +1,3 @@
+[console_scripts]
+my_script = my_package.local_server:main
+

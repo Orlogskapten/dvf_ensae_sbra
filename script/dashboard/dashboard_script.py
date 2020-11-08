@@ -133,7 +133,6 @@ p.add_layout(color_bar, "below")
 # tab2= Panel(child= p_map, title= "Je sais pas encore")
 
 
-p= make_map(menage_per_arr_mean, var_test)
 # # Save into html file
 output_file(r"paris_mutation.html")
 # tabs= Tabs(tabs= [ tab1, tab2 ])
