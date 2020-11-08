@@ -2,11 +2,12 @@ from tornado.ioloop import IOLoop
 
 import geopandas as gpd
 import pandas as pd
+import numpy as np
 
 from bokeh.application.handlers import FunctionHandler
 from bokeh.application import Application
 from bokeh.models import (GeoJSONDataSource, HoverTool, Div, CustomJS, Select
-, LinearColorMapper, ColorBar, ColumnDataSource)
+, LinearColorMapper, ColorBar, ColumnDataSource, Button)
 from bokeh.palettes import RdYlGn
 from bokeh.plotting import figure
 from bokeh.server.server import Server
@@ -56,6 +57,9 @@ var_arr_col= ["valeurfonc", "Ind", "Men", "Men_pauv", "Men_prop","Men_fmp", "Ind
 
 menage_per_arr= paris_arr[base_arr_col+var_arr_col].groupby(base_arr_col, as_index= False)
 menage_per_arr_mean= menage_per_arr.mean()
+menage_per_arr_count= menage_per_arr.size().reset_index(name= "counts")
+# Add num mutation per arrondissement into our principal dataset
+menage_per_arr_mean= menage_per_arr_mean.merge(menage_per_arr_count, on= "c_ar")
 
 # Add arrondissement shape (Polygon)
 menage_per_arr_mean["geometry"]= menage_per_arr_mean["c_ar"].map(arrondissement_geometry)
@@ -91,22 +95,36 @@ def modify_doc(doc):
                          , location= (0, 0)
                          )
 
-    p= figure(title= "Paris", plot_height= 500, plot_width= 1000
+    p= figure(title= "Paris", plot_height= 500, plot_width= 800
                , toolbar_location= "below")
 
-    select = Select(title="Sélectionner la variable", options=var_arr_col)
+    # Define the left histogram / barplot
+    plot= figure(title= "Densité", plot_height= 500, plot_width= 500
+                  , toolbar_location= None)
+
+    # Selec for map figure
+    select= Select(title="Sélectionner la variable", options= var_arr_col, value= "valeur_metre_carre")
+
+    # Reset plot and map localisation in the figure
+    # from https://www.kaggle.com/pavlofesenko/interactive-titanic-dashboard-using-bokeh
+    callback3_test= CustomJS(args= dict(p= p, plot= plot), code= '''
+        p.reset.emit();
+        plot.reset.emit();
+    ''')
+    button= Button(label= 'Reset')
+    button.js_on_click(callback3_test)
 
     def update_map(attr, old, new):
-        var_base = select.value
+        var_base= select.value
 
         # Update data
-        our_new_data= gpd.GeoDataFrame(menage_per_arr_mean[["geometry"]+[var_base]])
+        our_new_data= gpd.GeoDataFrame(menage_per_arr_mean[["geometry"]+var_arr_col+["counts"]])
         our_new_data.crs= base_crs
         geo_arr_json.geojson= our_new_data.to_json()
 
         # Update color bar
         color_mapper.high= our_new_data[var_base].max()
-        color_mapper.low = our_new_data[var_base].min()
+        color_mapper.low= our_new_data[var_base].min()
 
         # Update color change in map
         fill_color["field"]= var_base
@@ -118,10 +136,22 @@ def modify_doc(doc):
                         )
         pass
 
-    arr = p.patches(source=geo_arr_json
+    # Map figure
+    arr= p.patches(source= geo_arr_json
                     , fill_color= fill_color
-                    , line_color="black"
+                    , line_color= "black"
                     )
+
+    # Histogram figure
+    hist_data= paris_arr["pp"].apply(lambda x: np.log(x) if x > 0 else x)
+    hist, edges= np.histogram(hist_data, bins= 10)
+    plot.quad(top= hist, bottom= 0, left= edges[:-1], right= edges[1:]
+              , alpha= 0.4)
+
+
+    # Map hover
+    p.add_tools(HoverTool(tooltips= [("Arrondissement", "@c_ar")
+                                     , ("OK", "OK")]))
 
     # Adjust our grid (delete line, ticks etc.)
     p.xgrid.grid_line_color = None
@@ -133,14 +163,17 @@ def modify_doc(doc):
     p.xaxis.major_label_text_font_size = '0pt'
     p.yaxis.major_label_text_font_size = '0pt'
 
+
+
+
     # Legend color bar
     p.add_layout(color_bar, "below")
 
     # Update our data
     select.on_change("value", update_map)
-    layout= column(row(select, width= 400), p)
+    layout= column(column(row(select, width= 400), p), button)
+    doc.add_root(row(layout, plot))
 
-    doc.add_root(layout)
     # doc.add_root(p)
     pass
 
@@ -149,10 +182,10 @@ def main():
     """Launch the server and connect to it.
     """
     print("Preparing a bokeh application.")
-    io_loop = IOLoop.current()
-    bokeh_app = Application(FunctionHandler(modify_doc))
+    io_loop= IOLoop.current()
+    bokeh_app= Application(FunctionHandler(modify_doc))
 
-    server = Server({"/": bokeh_app}, io_loop=io_loop)
+    server= Server({"/": bokeh_app}, io_loop=io_loop)
     server.start()
     print("Opening Bokeh application on http://localhost:5006/")
 
@@ -161,4 +194,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main( )
+    main()
