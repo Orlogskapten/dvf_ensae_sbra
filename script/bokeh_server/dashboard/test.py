@@ -3,18 +3,17 @@ from tornado.ioloop import IOLoop
 import geopandas as gpd
 import pandas as pd
 import numpy as np
-import json
 
 from bokeh.application.handlers import FunctionHandler
 from bokeh.application import Application
 from bokeh.models import (GeoJSONDataSource, HoverTool, CustomJS, Select
-, LinearColorMapper, ColorBar, ColumnDataSource, Button, Slider, TapTool, RadioButtonGroup)
+, LinearColorMapper, ColorBar, ColumnDataSource, Button, Slider, RadioButtonGroup)
 from bokeh.palettes import RdYlGn
 from bokeh.plotting import figure
 from bokeh.server.server import Server
 from bokeh.layouts import (column, row)
 from bokeh.tile_providers import (get_provider, Vendors)
-from bokeh.models.tickers import FixedTicker
+
 
 base_crs= {"init": "epsg:4326"}
 
@@ -116,7 +115,7 @@ def modify_doc(doc):
                          , location= (0, 0)
                          )
 
-    tools= "pan,wheel_zoom,poly_select,box_select,tap"
+    tools= "pan,wheel_zoom,poly_select,box_select"
     p= figure(title= "Paris", plot_height= 500, plot_width= 800, toolbar_location= "below"
               , x_axis_type="linear", y_axis_type="linear", tools= tools)
     tile_provider= get_provider(Vendors.CARTODBPOSITRON_RETINA)
@@ -124,9 +123,9 @@ def modify_doc(doc):
 
     # Define the left histogram / barplot
     plot= figure(title= "Densité", plot_height= 200, plot_width= 500
-                  , toolbar_location= None)
+                  , toolbar_location= None, tools= "")
     plot_annee= figure(title="Densité arr", plot_height=200, plot_width=500
-                  , toolbar_location=None)
+                  , toolbar_location=None, tools= "")
 
     # Select for map figure
     select= Select(title="Sélectionner la variable", options= var_arr_col, value= "valeur_metre_carre")
@@ -152,7 +151,8 @@ def modify_doc(doc):
         # Get the new value of our selectors
         var_base= select.value # Select
         num_bins= slider.value # Slider
-        active_but = radio_button.active # Button month / year
+        active_but= radio_button.active
+
 
         # Update data
         our_new_data= gpd.GeoDataFrame(menage_per_arr_mean[["geometry"]+var_arr_col+["counts"]+base_arr_col])
@@ -170,12 +170,16 @@ def modify_doc(doc):
         # print(hist_df)
         src_hist.data= dict(ColumnDataSource(hist_df).data)
 
+        # Update line plot
         if active_but == 0:
-            line_data.data= dict(ColumnDataSource(year_paris_arr).data)
-            let_go = plot_annee.line(source=line_data, x="annee", y= var_base)
+            line_data.data = {"annee": year_paris_arr["annee"]
+                , var_base: year_paris_arr[var_base]}
+            let_go = plot_annee.line(source=line_data, x="annee", y=var_base)
+            plot_annee.xaxis.major_label_overrides = {1: "2014", 2: "2015", 3: "2016", 4: "2017", 5: "2018", 6: "2019"}
         else:
-            line_data.data= dict(ColumnDataSource(month_paris_arr).data)
-            let_go = plot_annee.line(source=line_data, x="mois", y= var_base)
+            line_data.data = {"mois": month_paris_arr["mois"]
+                , var_base: month_paris_arr[var_base]}
+            let_go = plot_annee.line(source=line_data, x="mois", y=var_base)
             plot_annee.xaxis.major_label_overrides= {1:"Janvier", 2:"Fevrier", 3:"Mars", 4:"Avril", 5:"Mai", 6:"Juin"
                                                          , 7:"Juillet", 8:"Aout", 9:"Septembre", 10:"Octobre"
                                                          , 11:"Novembre", 12:"Decembre"}
@@ -224,11 +228,13 @@ def modify_doc(doc):
         var_base= select.value
 
         if active_but == 0:
-            line_data.data= dict(ColumnDataSource(year_paris_arr).data)
-            let_go = plot_annee.line(source=line_data, x="annee", y= var_base)
+            line_data.data = {"annee": year_paris_arr["annee"]
+                , var_base: year_paris_arr[var_base]}
+            let_go = plot_annee.line(source=line_data, x="annee", y=var_base)
         else:
-            line_data.data= dict(ColumnDataSource(month_paris_arr).data)
-            let_go = plot_annee.line(source=line_data, x="mois", y= var_base)
+            line_data.data = {"mois": month_paris_arr["mois"]
+                , var_base: month_paris_arr[var_base]}
+            let_go = plot_annee.line(source=line_data, x="mois", y=var_base)
             plot_annee.xaxis.major_label_overrides= {1:"Janvier", 2:"Fevrier", 3:"Mars", 4:"Avril", 5:"Mai", 6:"Juin"
                                                          , 7:"Juillet", 8:"Aout", 9:"Septembre", 10:"Octobre"
                                                          , 11:"Novembre", 12:"Decembre"}
@@ -258,8 +264,10 @@ def modify_doc(doc):
     # Plot line per year : month
     line_base_var= var_base
     year_or_month= "annee"
-    line_data= ColumnDataSource(year_paris_arr)
-    let_go= plot_annee.line(source= line_data, x= year_or_month, y= var_base)
+    year_or_month= {0: "annee", 1: "mois"}
+    line_data= ColumnDataSource(year_paris_arr[["annee"]+ [var_base]])
+    let_go= plot_annee.line(source= line_data, x= "annee", y= var_base)
+    plot_annee.xaxis.major_label_overrides = {1: "2014", 2: "2015", 3: "2016", 4: "2017", 5: "2018", 6: "2019"}
     plot_annee.xaxis.major_label_orientation = 3.14 / 4
 
     # Map hover
@@ -292,6 +300,14 @@ def modify_doc(doc):
     """
     callback= CustomJS(args= dict(source= geo_arr_json, fake_data= fake_data), code= codes)
     p.js_on_event("tap", callback)
+
+    # code_line_plot = """
+    #     var column = cb_obj.value;
+    #     line1.glyph.x.field = column;
+    #     source.trigger('change')
+    #     """
+    # callback_line_plot= CustomJS(args= dict(source= ), code= code_line_plot)
+
 
     select.on_change("value", update_map)
     slider.on_change("value", update_bins)
