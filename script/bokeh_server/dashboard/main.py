@@ -16,9 +16,11 @@ from bokeh.tile_providers import (get_provider, Vendors)
 
 base_crs= {"init": "epsg:4326"}
 
-arrondissement= gpd.read_file("./data/paris/arrondissements.shp")
-paris_mutation= gpd.read_file("./data/filo_mutation/paris_mutation_filo.shp")
-score_arrondissement= pd.read_csv("./data/saved/score_per_arr.csv")
+arrondissement= gpd.read_file("arrondissements.shp")
+# paris_mutation= gpd.read_file("data/filo_mutation/paris_mutation_filo.shp")
+# https://geopandas.org/io.html
+paris_mutation= gpd.read_file("zip://paris_mutation_filo.zip!paris_mutation_filo.shp")
+score_arrondissement= pd.read_csv("score_per_arr.csv")
 
 # Adjust score arrondissment to merge with arrondissement
 score_arrondissement= score_arrondissement.rename({"Arrondissement": "c_ar"}, axis= 1) # simplify merging index
