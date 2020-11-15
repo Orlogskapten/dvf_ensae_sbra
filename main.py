@@ -12,17 +12,18 @@ from bokeh.tile_providers import (get_provider, Vendors)
 
 base_crs= {"init": "epsg:4326"}
 
-arrondissement= gpd.read_file("arrondissements.shp")
+menage_per_arr_mean= gpd.read_file("menage_per_arr_mean.shp")
 # https://geopandas.org/io.html
-paris_mutation= gpd.read_file("zip://paris_mutation_filo.zip!paris_mutation_filo.shp")
-score_arrondissement= pd.read_csv("score_per_arr.csv")
+paris_arr= gpd.read_file("zip://paris_arr.zip!paris_arr.shp")
+
+# print(menage_per_arr_mean.info())
 
 base_arr_col= ["c_ar"]
 var_arr_col= ["valeurfonc", "Ind", "Men", "Men_pauv", "Men_prop","Men_fmp", "Ind_snv", "Men_surf", "Men_coll"
-    , "Men_mais", "sbati", "pp", "valeur_metre_carre", "Note global", "Qualité de vie", "Commerces", "Enseignement"
-    , "Culture", "Sports et loisirs", "Santé", "Sécurité", "Transports", "Environnement"]
+    , "Men_mais", "sbati", "pp", "valeur_met", "Note globa", "Qualite de", "Commerces", "Enseigneme"
+    , "Culture", "Sports et ", "Sante", "Securite", "Transports", "Environnem"]
 
-var_base= "valeur_metre_carre"
+var_base= "valeur_met"
 
 def to_geojson(geopd):
     return GeoJSONDataSource(geojson= geopd.to_json())
@@ -55,7 +56,7 @@ plot= figure(title= "Densité", plot_height= 200, plot_width= 500
               , toolbar_location= None, tools= "")
 
 # Select for map figure
-select= Select(title="Sélectionner la variable", options= var_arr_col, value= "valeur_metre_carre")
+select= Select(title="Sélectionner la variable", options= var_arr_col, value= var_base)
 
 # Reset plot and map localisation in the figure
 # from https://www.kaggle.com/pavlofesenko/interactive-titanic-dashboard-using-bokeh
