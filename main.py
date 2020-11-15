@@ -61,6 +61,7 @@ menage_per_arr_mean= menage_per_arr.mean()
 menage_per_arr_count= menage_per_arr.size().reset_index(name= "counts")
 # Add num mutation per arrondissement into our principal dataset
 menage_per_arr_mean= menage_per_arr_mean.merge(menage_per_arr_count, on= "c_ar")
+del menage_per_arr_count
 
 # Add arrondissement shape (Polygon)
 menage_per_arr_mean["geometry"]= menage_per_arr_mean["c_ar"].map(arrondissement_geometry)
