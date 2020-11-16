@@ -13,15 +13,11 @@ from bokeh.tile_providers import (get_provider, Vendors)
 base_crs= {"init": "epsg:4326"}
 
 menage_per_arr_mean= gpd.read_file("menage_per_arr_mean.shp")
-# https://geopandas.org/io.html
-paris_arr= gpd.read_file("zip://paris_arr.zip!paris_arr.shp")
-
-# print(menage_per_arr_mean.info())
 
 base_arr_col= ["c_ar"]
 var_arr_col= ["valeurfonc", "Ind", "Men", "Men_pauv", "Men_prop","Men_fmp", "Ind_snv", "Men_surf", "Men_coll"
     , "Men_mais", "sbati", "pp", "valeur_met", "Note globa", "Qualite de", "Commerces", "Enseigneme"
-    , "Culture", "Sports et ", "Sante", "Securite", "Transports", "Environnem"]
+    , "Culture", "Sports et", "Sante", "Securite", "Transports", "Environnem"]
 
 var_base= "valeur_met"
 
@@ -77,23 +73,11 @@ slider= Slider(start= 10, end= 100, value= num_bins,
 def update_map(attr, old, new):
     # Get the new value of our selectors
     var_base= select.value # Select
-    num_bins= slider.value # Slider
 
     # Update data
     our_new_data= gpd.GeoDataFrame(menage_per_arr_mean[["geometry"]+var_arr_col+["counts"]+base_arr_col])
     our_new_data.crs= base_crs
     geo_arr_json.geojson= our_new_data.to_json()
-
-    # Update hist data
-    hist_data = paris_arr[var_base].apply(lambda x: np.log(x) if x > 0 else x)
-    hist, edges= np.histogram(hist_data[np.isfinite(hist_data)], bins= num_bins)
-    hist_df = pd.DataFrame({var_base: hist,
-                            "left": edges[:-1],
-                            "right": edges[1:]})
-    hist_df["interval"] = ["%d to %d" % (left, right) \
-                           for left, right in zip(hist_df["left"], hist_df["right"])]
-    # print(hist_df)
-    src_hist.data= dict(ColumnDataSource(hist_df).data)
 
     # Update color bar
     color_mapper.high= our_new_data[var_base].max()
@@ -111,27 +95,7 @@ def update_map(attr, old, new):
                     )
 
     # Update histogram
-    plot_hist = plot.quad(source=src_hist, left="left", right="right", top=var_base, bottom=0)
 
-    pass
-
-def update_bins(attr, old, new):
-    num_bins = slider.value  # Slider
-    var_base = select.value  # Select
-
-    # Update hist data
-    hist_data = paris_arr[var_base].apply(lambda x: np.log(x) if x > 0 else x)
-    hist, edges = np.histogram(hist_data[np.isfinite(hist_data)], bins=num_bins)
-    hist_df = pd.DataFrame({var_base: hist,
-                            "left": edges[:-1],
-                            "right": edges[1:]})
-    hist_df["interval"] = ["%d to %d" % (left, right) \
-                           for left, right in zip(hist_df["left"], hist_df["right"])]
-    # print(hist_df)
-    src_hist.data = dict(ColumnDataSource(hist_df).data)
-
-    # Update histogram
-    plot_hist = plot.quad(source=src_hist, left="left", right="right", top=var_base, bottom=0)
     pass
 
 # Map figure
@@ -140,18 +104,6 @@ arr= p.patches(source= geo_arr_json
                 , line_color= "black"
                 , fill_alpha= 0.8
                 )
-
-# Histogram figure
-hist_data = paris_arr[var_base].apply(lambda x: np.log(x) if x > 0 else x)
-hist, edges = np.histogram(hist_data[np.isfinite(hist_data)], bins=num_bins)
-hist_df = pd.DataFrame({var_base: hist,
-                        "left": edges[:-1],
-                        "right": edges[1:]})
-hist_df["interval"] = ["%d to %d" % (left, right) \
-                       for left, right in zip(hist_df["left"], hist_df["right"])]
-src_hist = ColumnDataSource(hist_df)
-plot_hist = plot.quad(source=src_hist, left="left", right="right", top=var_base, bottom=0)
-
 
 # Map hover
 p.add_tools(HoverTool(tooltips= [("Arrondissement", "@c_ar")
@@ -172,28 +124,8 @@ p.yaxis.major_label_text_font_size = '0pt'
 # Legend color bar
 p.add_layout(color_bar, "below")
 
-# Update our data
-fake_data = ColumnDataSource({"indices": []})
-codes = """
-var index_selected = source.selected.indices;
-fake_data.data= {new: index_selected};
-fake_data.change.emit();
-console.log(index_selected)
-console.log(fake_data);
-"""
-callback= CustomJS(args= dict(source= geo_arr_json, fake_data= fake_data), code= codes)
-p.js_on_event("tap", callback)
-
-# code_line_plot = """
-#     var column = cb_obj.value;
-#     line1.glyph.x.field = column;
-#     source.trigger('change')
-#     """
-# callback_line_plot= CustomJS(args= dict(source= ), code= code_line_plot)
-
 
 select.on_change("value", update_map)
-slider.on_change("value", update_bins)
 # radio_button.on_change("active", update_line_select)
 
 # layout= column(column(row(select, width= 400), p), button)
@@ -202,14 +134,7 @@ layout= column(
         row(
             select, width= 400
         )
-        , row(
-            row(
-                p, width= 800
-            )
-            , column(
-                    plot
-                    , slider
-            )
+        , row( p, width= 800
         ), sizing_mode="scale_width"
     )
     , row(
