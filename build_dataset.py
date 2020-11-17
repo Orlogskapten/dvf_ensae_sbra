@@ -3,10 +3,10 @@ import pandas as pd
 
 base_crs= {"init": "epsg:4326"}
 
-arrondissement= gpd.read_file("arrondissements.shp")
+arrondissement= gpd.read_file("data/arrondissements.shp")
 # https://geopandas.org/io.html
-paris_mutation= gpd.read_file("zip://paris_mutation_filo.zip!paris_mutation_filo.shp")
-score_arrondissement= pd.read_csv("score_per_arr.csv")
+paris_mutation= gpd.read_file("zip://paris_arr.zip!paris_arr.shp")
+score_arrondissement= pd.read_csv("data/score_per_arr.csv")
 
 # Adjust score arrondissment to merge with arrondissement
 score_arrondissement= score_arrondissement.rename({"Arrondissement": "c_ar"}, axis= 1) # simplify merging index
@@ -48,7 +48,7 @@ var_arr_col= ["valeurfonc", "Ind", "Men", "Men_pauv", "Men_prop","Men_fmp", "Ind
     , "Men_mais", "sbati", "pp", "valeur_metre_carre", "Note global", "Qualite de vie", "Commerces", "Enseignement"
     , "Culture", "Sports et loisirs", "Sante", "Securite", "Transports", "Environnement"]
 
-
+print(paris_arr.info())
 menage_per_arr= paris_arr[base_arr_col+var_arr_col].groupby(base_arr_col, as_index= False)
 menage_per_arr_mean= menage_per_arr.mean()
 menage_per_arr_count= menage_per_arr.size().reset_index(name= "counts")
@@ -68,8 +68,11 @@ menage_per_arr_mean["c_ar"]= menage_per_arr_mean["c_ar"].astype(int)
 menage_per_arr_mean.sort_values(by= "c_ar", ascending= True, inplace= True)
 menage_per_arr_mean["c_ar"]= menage_per_arr_mean["c_ar"].astype(str)
 menage_per_arr_mean.reset_index(inplace= True, drop= True)
+menage_per_arr_mean.rename(columns= {"valeurfonc":"Valeur foncière"}, inplace= True)
 
 # print(menage_per_arr_mean.info())
-menage_per_arr_mean.to_file("menage_per_arr_mean.shp")
+# menage_per_arr_mean.to_file("menage_per_arr_mean.shp")
 # paris_arr.to_file("paris_arr.shp")
+
+menage_per_arr_mean.info()
 

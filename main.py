@@ -13,13 +13,26 @@ from bokeh.tile_providers import (get_provider, Vendors)
 base_crs= {"init": "epsg:4326"}
 
 menage_per_arr_mean= gpd.read_file("menage_per_arr_mean.shp")
+menage_per_arr_mean.rename(columns= {"valeurfonc": "Valeur foncière", "Ind": "Nombre d'individus"
+    , "Men": "Nombre de ménage", "Men_pauv": "Proportion de ménages pauvres"
+    , "Men_prop": "Proportion de ménages d’un seul individu", "Men_fmp": "Proportion de ménages monoparentaux"
+    , "Ind_snv": "Somme des niveaux de vie winsorisés des individus"
+    , "Men_surf": "Somme de la surface des logements du carreau"
+    , "Men_coll": "Proportion de ménages en logements collectifs", "Men_mais": "Proportion de ménages en maison"
+    , "sbati": "Surface des logements (mutation)", "pp": "Nombre de pièce (mutation)"
+    , "valeur_met": "Valeur foncière par mètre carré", "Note globa": "Note globale", "Qualite de": "Note qualite de vie"
+    , "Enseigneme": "Note enseignement", "Commerces": "Note commerces", "Culture": "Note culture"
+    , "Sports et": "Note sport et loisirs", "Sante": "Note sante", "Securite": "Note securite"
+    , "Transports": "Note transports", "Environnem": "Note environnement"}
+                           , inplace= True)
 
 base_arr_col= ["c_ar"]
-var_arr_col= ["valeurfonc", "Ind", "Men", "Men_pauv", "Men_prop","Men_fmp", "Ind_snv", "Men_surf", "Men_coll"
-    , "Men_mais", "sbati", "pp", "valeur_met", "Note globa", "Qualite de", "Commerces", "Enseigneme"
-    , "Culture", "Sports et", "Sante", "Securite", "Transports", "Environnem"]
+# var_arr_col= ["valeurfonc", "Ind", "Men", "Men_pauv", "Men_prop","Men_fmp", "Ind_snv", "Men_surf", "Men_coll"
+#     , "Men_mais", "sbati", "pp", "valeur_met", "Note globa", "Qualite de", "Commerces", "Enseigneme"
+#     , "Culture", "Sports et", "Sante", "Securite", "Transports", "Environnem"]
+var_arr_col= [col for col in menage_per_arr_mean.columns if col not in ["c-ar", "counts", "geometry"]]
 
-var_base= "valeur_met"
+var_base= "Valeur foncière"
 
 def to_geojson(geopd):
     return GeoJSONDataSource(geojson= geopd.to_json())
@@ -65,10 +78,10 @@ button.js_on_click(callback3_test)
 
 # Select month or year for line plot
 
-# Select bins with slider
-num_bins= 20
-slider= Slider(start= 10, end= 100, value= num_bins,
-                step= 10, title='Nombre de bins')
+# # Select bins with slider
+# num_bins= 20
+# slider= Slider(start= 10, end= 100, value= num_bins,
+#                 step= 10, title='Nombre de bins')
 
 def update_map(attr, old, new):
     # Get the new value of our selectors
