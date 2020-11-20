@@ -24,6 +24,7 @@ def put_time(df, col= "datemut"):
 grouped_price_time_mean["datemut"]= put_time(grouped_price_time_mean)
 grouped_price_time_median["datemut"]= put_time(grouped_price_time_median)
 
+dico_data= {0: grouped_price_time_mean, 1: grouped_price_time_median}
 
 base_crs= {"init": "epsg:4326"}
 
@@ -75,8 +76,10 @@ p= figure(title= "Carte des arrondissements de Paris", plot_height= 500, plot_wi
 tile_provider= get_provider(Vendors.CARTODBPOSITRON_RETINA)
 p.add_tile(tile_provider)
 
-# Define the left histogram / barplot
-plot= figure(title= "Line", plot_height= 200, plot_width= 500
+# Define both line plot
+plot= figure(title= "Par année", plot_height= 300, plot_width= 600
+              , toolbar_location= None, tools= "")
+plot2= figure(title= "Par mois", plot_height= 300, plot_width= 600
               , toolbar_location= None, tools= "")
 
 # Select for map figure
@@ -84,23 +87,17 @@ select= Select(title="Sélectionner la variable", options= var_arr_col, value= v
 
 # Reset plot and map localisation in the figure
 # from https://www.kaggle.com/pavlofesenko/interactive-titanic-dashboard-using-bokeh
-callback3_test= CustomJS(args= dict(p= p, plot= plot), code= '''
+callback3_test= CustomJS(args= dict(p= p), code= '''
     p.reset.emit();
-    plot.reset.emit();
 ''')
 button= Button(label= 'Reset')
 button.js_on_click(callback3_test)
 
 # Select month or year for line plot
-line_list= [col for col in grouped_price_time_mean.columns if col not in ["datemut"]]
+line_list= [col for col in grouped_price_time_mean.columns if col not in ["datemut", "Unnamed: 0"]]
 select_line_var= Select(title= "Sélectionner la variable", options= line_list, value= var_base)
-radio_button_time= RadioButtonGroup(labels= ["Annuel", "Mois", "Toute la serie"])
 radio_group_type= RadioGroup(labels= ["Moyenne", "Mediane"], active= 0)
 
-# # Select bins with slider
-# num_bins= 20
-# slider= Slider(start= 10, end= 100, value= num_bins,
-#                 step= 10, title='Nombre de bins')
 
 def update_map(attr, old, new):
     # Get the new value of our selectors
@@ -137,8 +134,22 @@ arr= p.patches(source= geo_arr_json
                 , fill_alpha= 0.8
                 )
 # Map hover
-p.add_tools(HoverTool(tooltips= [("Arrondissement", "@c_ar")
-                                 , ("OK", "OK")]))
+# tooltips="""
+#
+#     <div style ="border-width: 1px;background-color:orange;">
+#         <div>
+#             <span style="font-size: 12px; ">Arrondissement</span>
+#             <span style="font-size: 12px; "> @c_ar</span>
+#         </div>
+#     </div>
+#     """
+p.add_tools(HoverTool(tooltips= [("Arrondissement ", "@c_ar")
+    , ("Nombre de ménages (en moyenne)", "@{Nombre de ménages}{int}")
+    , ("Nombre d'individus (en moyenne)", "@{Nombre d'individus}{int}")
+    , ("Proportion de ménages pauvres ", "@{Proportion de ménages pauvres}{1.1} %")
+    , ("Valeur foncière ", "@{Valeur foncière}{int} €")
+    , ("Note globale de l'arrondissement ", "@{Note globale}{1.1}")]))
+
 # Adjust our grid (delete line, ticks etc.)
 p.xgrid.grid_line_color = None
 p.ygrid.grid_line_color = None
@@ -154,13 +165,73 @@ p.add_layout(color_bar, "below")
 select.on_change("value", update_map)
 
 # Page 2 : line plot
+def update_line_kind_data(attr, old, new):
+    kind= radio_group_type.active
+
+    new_data= dico_data[kind]
+    date = new_data["datemut"].dt.to_period("Y")  # Per month
+    mean_grouped_price_time_mean= new_data.groupby(date).mean()
+    mean_grouped_price_time_mean.reset_index(level=0, inplace=True)
+    mean_grouped_price_time_mean["datemut"] = mean_grouped_price_time_mean["datemut"].astype(str)
+
+    line_source.data = dict(ColumnDataSource(mean_grouped_price_time_mean).data)
+
+    date = new_data["datemut"].dt.month  # Per month
+    mean_grouped_price_time_mean= new_data.groupby(date).mean()
+    mean_grouped_price_time_mean.reset_index(level=0, inplace=True)
+    mean_grouped_price_time_mean["datemut"] = mean_grouped_price_time_mean["datemut"].astype(str)
+
+    line_source2.data = dict(ColumnDataSource(mean_grouped_price_time_mean).data)
+
+    pass
+radio_group_type.on_change("active", update_line_kind_data)
+
+# Year xaxis
 date= grouped_price_time_mean["datemut"].dt.to_period("Y") # Per year
 mean_grouped_price_time_mean= grouped_price_time_mean.groupby(date).mean()
 mean_grouped_price_time_mean.reset_index(level=0, inplace=True)
+mean_grouped_price_time_mean["datemut"]= mean_grouped_price_time_mean["datemut"].astype(str)
 
 line_source= ColumnDataSource(mean_grouped_price_time_mean)
-line= plot.line(source= line_source, x= "datemut", y= var_base)
+line= plot.line(source= line_source, x= "datemut", y= var_base
+                , line_width= 2, line_color= "darkorange", alpha= 0.3)
+circle= plot.circle(source= line_source, x= "datemut", y= var_base, size= 7
+                    , line_width= 2, line_color= "darkorange", alpha= 0.8
+                    , color= "lightblue")
 
+plot.xaxis.major_label_orientation = 3.14 / 4
+plot.add_tools(HoverTool(tooltips= [("Année ", "@datemut")]))
+
+
+# Month xaxis
+date= grouped_price_time_mean["datemut"].dt.month#to_period("M") # Per year
+mean_grouped_price_time_mean= grouped_price_time_mean.groupby(date).mean()
+mean_grouped_price_time_mean.reset_index(level=0, inplace=True)
+mean_grouped_price_time_mean["datemut"]= mean_grouped_price_time_mean["datemut"].astype(str).str.replace("-", "")
+
+line_source2= ColumnDataSource(mean_grouped_price_time_mean)
+line2= plot2.line(source= line_source2, x= "datemut", y= var_base
+                  , line_width= 2, line_color= "darkorange", alpha= 0.3)
+circle2= plot2.circle(source= line_source2, x= "datemut", y= var_base, size= 7
+                     , line_width= 2, line_color= "darkorange", alpha= 0.8
+                      , color= "lightblue")
+plot2.xaxis.major_label_orientation = 3.14 / 4
+plot2.xaxis.major_label_overrides = {1:"Janvier", 2:"Fevrier", 3:"Mars", 4:"Avril", 5:"Mai", 6:"Juin"
+                                                         , 7:"Juillet", 8:"Aout", 9:"Septembre", 10:"Octobre"
+                                                         , 11:"Novembre", 12:"Decembre"}
+plot2.add_tools(HoverTool(tooltips= [("Mois ", "@datemut")]))
+
+
+def update_line_var(attr, old, new):
+    var= select_line_var.value
+
+    line.glyph.y= var
+    line2.glyph.y= var
+
+    circle.glyph.y = var
+    circle2.glyph.y= var
+    pass
+select_line_var.on_change("value", update_line_var)
 
 
 # HTML page formation
@@ -168,7 +239,7 @@ page1= column(column(row(p, width= 800)
                      , column(row(select, width= 400), row(button, width= 50))))
 tab1= Panel(child= page1, title= "Valeur par arrondissemeent")
 
-page2= column(plot)
+page2= column(plot, plot2, row(row(select_line_var, width= 250), radio_group_type))
 tab2= Panel(child= page2, title= "Valeur dans le temps")
 
 final_page= Tabs(tabs= [tab1, tab2])
