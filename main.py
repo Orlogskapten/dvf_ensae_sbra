@@ -159,6 +159,8 @@ p.yaxis.major_tick_line_color = None
 p.yaxis.minor_tick_line_color = None
 p.xaxis.major_label_text_font_size = '0pt'
 p.yaxis.major_label_text_font_size = '0pt'
+p.background_fill_color= None
+p.border_fill_color= None
 # Legend color bar
 p.add_layout(color_bar, "below")
 
