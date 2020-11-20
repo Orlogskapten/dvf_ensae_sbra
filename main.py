@@ -68,6 +68,7 @@ color_bar= ColorBar(color_mapper= color_mapper
                      , orientation= "horizontal"
                      , border_line_color= None
                      , location= (0, 0)
+                     , background_fill_color= None
                      )
 
 tools= "pan,wheel_zoom,poly_select,box_select"
@@ -203,6 +204,8 @@ circle= plot.circle(source= line_source, x= "datemut", y= var_base, size= 7
 
 plot.xaxis.major_label_orientation = 3.14 / 4
 plot.add_tools(HoverTool(tooltips= [("Année ", "@datemut")]))
+plot.background_fill_color= None
+plot.border_fill_color= None
 
 
 # Month xaxis
@@ -222,6 +225,8 @@ plot2.xaxis.major_label_overrides = {1:"Janvier", 2:"Fevrier", 3:"Mars", 4:"Avri
                                                          , 7:"Juillet", 8:"Aout", 9:"Septembre", 10:"Octobre"
                                                          , 11:"Novembre", 12:"Decembre"}
 plot2.add_tools(HoverTool(tooltips= [("Mois ", "@datemut")]))
+plot2.background_fill_color= None
+plot2.border_fill_color= None
 
 
 def update_line_var(attr, old, new):
