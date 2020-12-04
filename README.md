@@ -35,13 +35,13 @@ Nous nous sommes concentrés sur Paris (en dépit d'avoir 64 go de RAM :cry:) po
 Nous avons développé dans le cadre de ce projet **un dashboard intéractif** pour mettre en avant les principales variables disponibles dans notre dataset dont voici un aperçu :
 
 <p align="center">
-  <a href="https://wenceslas.netlify.app/projects/parismutation/">
+  <a href="https://orlogskapten.github.io/dvf_ensae_sbra/#dashboard">
   <img src="./img/dashboard.png" width="738">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://wenceslas.netlify.app/projects/parismutation/">
+  <a href="https://orlogskapten.github.io/dvf_ensae_sbra/#dashboard">
   <img src="./img/dashboard2.png" height="700">
   </a>
 </p>
