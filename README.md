@@ -46,4 +46,4 @@ Nous avons développé dans le cadre de ce projet **un dashboard intéractif** p
   </a>
 </p>
 
-Il est disponible sur [cette page](https://wenceslas.netlify.app/projects/parismutation/) et en app [ici](https://parismutation.herokuapp.com/).
+Il est disponible sur [cette page](https://orlogskapten.github.io/dvf_ensae_sbra/#dashboard) et en app [ici](https://parismutation.herokuapp.com/).
