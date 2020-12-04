@@ -1,6 +1,7 @@
 plugins:
   - jemoji
-title: [Paris DVF&Co]
+  
+title: Paris DVF&Co
 description: [Academic project at ENSAE about Paris real estate prediction]
 show_downloads: true
 remote_theme: tuur29/pages-themes-cayman
