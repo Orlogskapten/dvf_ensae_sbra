@@ -3,12 +3,12 @@ plugins:
   - jemoji
 
 title: [Paris DVF&Co]
-description: [Academic project at ENSAE about Paris real estate predictions A]
+description: [Academic project at ENSAE about Paris real estate predictions]
 
 darkmode: false
 hide_first_title: false # Useful if README.md is used on both github and pages
 logo_url: ./logo.png # Either absolute or relative url
-syntax_theme: ./syntax.css # Leave empty for default, otherwise link to a pygments stylesheet
+syntax_theme: https://stylishthemes.github.io/Syntax-Themes/pygments/css-github/pygments-monokai.css
 colors:
     header: "#000"
     gradient_left: "#e53935"
