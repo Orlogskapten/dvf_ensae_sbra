@@ -6,8 +6,8 @@ show_downloads: true
 remote_theme: tuur29/pages-themes-cayman
 color:
   header: "#000"
-  gradient_left: "#F0B27A"
-  gradient_right: "#FADBD8"
+  gradient_left: "#FADBD8"
+  gradient_right: "#EB984E"
 
 syntax_theme: https://stylishthemes.github.io/Syntax-Themes/pygments/css-github/pygments-monokai.css
 buttons:
