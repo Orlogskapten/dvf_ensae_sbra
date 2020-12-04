@@ -3,7 +3,7 @@ plugins:
   - jemoji
 
 title: [Paris DVF&Co]
-description: [A short description of your site's purpose]
+description: [Academic project at ENSAE about Paris real estate predictionse]
 head: [Paris DVF&Co]
 
 darkmode: false
