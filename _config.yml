@@ -2,7 +2,7 @@ theme: jekyll-theme-cayman
 plugins:
   - jemoji
 
-title: Paris DVF&Co
+title: [Paris DVF&Co]
 description: Academic project at ENSAE about Paris real estate prediction
 
 darkmode: false
@@ -17,7 +17,7 @@ colors:
 
 buttons:
   zip_url: https://github.com/Orlogskapten/dvf_ensae_sbra
-  zip_title: Voir le repository
+  zip_title: [Voir le repository]
   zip_hide: false
   tar_hide: true
   github_hide: true
