@@ -1,18 +1,18 @@
 plugins:
   - jemoji
 title: [Paris DVF&Co]
-description: [Academic project at ENSAE about Paris real estate prediction a]
+description: [Academic project at ENSAE about Paris real estate prediction]
 show_downloads: true
 remote_theme: tuur29/pages-themes-cayman
 color:
   header: "#000"
   gradient_left: "#F0B27A"
-  gradient_right: "#f57c00"
-logo_url: https://github.githubassets.com/images/icons/emoji/octocat.png
+  gradient_right: "#FADBD8"
+
 syntax_theme: https://stylishthemes.github.io/Syntax-Themes/pygments/css-github/pygments-monokai.css
 buttons:
-  zip_url: https://github.com/tuur29/pages-themes-cayman
-  zip_title: View Documentation
+  zip_url: https://github.com/Orlogskapten/dvf_ensae_sbra
+  zip_title: Voir le repository du projet
   zip_hide: false
   tar_hide: true
   github_hide: true
