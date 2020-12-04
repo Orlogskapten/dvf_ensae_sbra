@@ -1,3 +1,5 @@
+plugins:
+  - jemoji
 title: [Paris DVF&Co]
 description: [Academic project at ENSAE about Paris real estate prediction a]
 show_downloads: true
