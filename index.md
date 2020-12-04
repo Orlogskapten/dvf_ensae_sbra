@@ -1,37 +1,38 @@
-## Welcome to GitHub Pages
+<h1 align="center">:house: Prévision du prix de l'immobilier parisien à l'aide de DVF &Co :house:</h1>
 
-You can use the [editor on GitHub](https://github.com/Orlogskapten/dvf_ensae_sbra/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+[![Heroku App Status](http://heroku-shields.herokuapp.com/parismutation)](https://parismutation.herokuapp.com)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+<div align="center">
+  <strong>Projet Python 2ème année de l'ENSAE</strong>
+</div>
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+<div align="center">
+  <sub>En collaboration avec 
+  <a href="https://github.com/camillefrancon">Camille Francon</a>,
+  <a href="https://github.com/Orlogskapten">Wenceslas Sanchez</a> et
+    <a href="https://github.com/khaledlarbi">Khaled Larbi</a>.
+</div>
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+## Sommaire
+- [But](#but)
+- [Dashboard](#dashboard)
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
+## But
 
-**Bold** and _Italic_ and `Code` text
+La direction générale des finances publiques publie tous les semestres le dataset **Demandes de valeurs foncières** qui fournit sur les 5 dernières années l'ensemble des transactions immobilières à partir des actes notariés sur le territoire métropolitain (hors Alsace, Moselle et Mayotte). Ce dataset contient la valeur à laquelle le bien a été vendu, le type de transaction, les caractéristiques des biens (surface, localisation, nombre de pièce) etc. Les données sont accessibles [ici](https://datafoncier.cerema.fr/donnees/autres-donnees-foncieres/dvfplus-open-data);
 
-[Link](url) and ![Image](src)
-```
+Nous nous sommes concentrés sur Paris (en dépit d'avoir 64 go de RAM :cry:) pour prédire la valeur d'un bien (en fonction de ses caractéristiques) en enrichissant le dataset avec :
+- les données **FiLoSoFi** publié par l'INSEE qui fournissent des informations sur les caractéristiques des ménages au sein d'un carroyage (de 200m pour notre part), disponible [ici](https://www.data.gouv.fr/fr/datasets/donnees-carroyees-issues-du-dispositif-sur-les-revenus-localises-fiscaux-et-sociaux-filosofi/).
+- les critères d'appréciation et **les notes de Paris** par arrondissement (noté par les habitants). Ces informations ont été scrappé sur le site [Ville-idéale](https://www.ville-ideale.fr/). Le script qui permet de scrapper est disponilbe [ici](https://github.com/Orlogskapten/dvf_ensae_sbra/blob/master/script/ville_ideale_scraping.py)
+- les données sur **les équipements à proximité des logements**. Le dataset est disponible [ici](https://www.insee.fr/fr/statistiques/fichier/3568638/bpe19_ensemble_xy_csv.zip). Un gros travail a été nécessaire pour rattacher ces données à la table DVF que vous retrouverez [ici](https://github.com/Orlogskapten/dvf_ensae_sbra/blob/master/khaled/notebook/localisation_service_bpe.ipynb).
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## Dashboard
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Orlogskapten/dvf_ensae_sbra/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Nous avons développé dans le cadre de ce projet **un dashboard intéractif** pour mettre en avant les principales variables disponibles dans notre dataset :
 
-### Support or Contact
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+
