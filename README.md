@@ -17,7 +17,7 @@
 
 ## Sommaire
 - [But](#but)
-- [GitHub Pages](#github pages)
+- [GitHub-Pages](#github-pages)
 
 
 ## But
@@ -29,7 +29,7 @@ Nous nous sommes concentrés sur Paris (en dépit d'avoir 64 go de RAM :cry:) po
 - les critères d'appréciation et **les notes de Paris** par arrondissement (noté par les habitants). Ces informations ont été scrappé sur le site [Ville-idéale](https://www.ville-ideale.fr/). Le script qui permet de scrapper est disponilbe [ici](https://github.com/Orlogskapten/dvf_ensae_sbra/blob/master/script/ville_ideale_scraping.py)
 - les données sur **les équipements à proximité des logements**. Le dataset est disponible [ici](https://www.insee.fr/fr/statistiques/fichier/3568638/bpe19_ensemble_xy_csv.zip). Un gros travail a été nécessaire pour rattacher ces données à la table DVF que vous retrouverez [ici](https://github.com/Orlogskapten/dvf_ensae_sbra/blob/master/khaled/notebook/localisation_service_bpe.ipynb).
 
-## GitHub Pages
+## GitHub-Pages
 
 
 Nous avons développé dans le cadre de ce projet **un dashboard intéractif** pour mettre en avant les principales variables disponibles dans notre dataset dont voici un aperçu :
