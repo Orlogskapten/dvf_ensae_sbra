@@ -30,4 +30,4 @@ Nous nous sommes concentrés sur Paris (en dépit d'avoir 64 go de RAM :cry:) po
 
 Nous avons développé dans le cadre de ce projet **un dashboard intéractif** pour mettre en avant les principales variables disponibles dans notre dataset :
 
-<p align="center"><iframe height="800" width="900" src="https://parismutation.herokuapp.com"></iframe></p>
+<p align="center"><iframe height="700" width="850" src="https://parismutation.herokuapp.com"></iframe></p>
