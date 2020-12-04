@@ -1,19 +1,13 @@
-<h1 align="center">:house: Prévision du prix de l'immobilier parisien à l'aide de DVF &Co :house:</h1>
+# :house: Prévision du prix de l'immobilier parisien à l'aide de DVF &Co :house:
 
 [![Heroku App Status](http://heroku-shields.herokuapp.com/parismutation)](https://parismutation.herokuapp.com)
 
+**Projet Python 2ème année de l'ENSAE**
 
-<div align="center">
-  <strong>Projet Python 2ème année de l'ENSAE</strong>
-</div>
-
-
-<div align="center">
-  <sub>En collaboration avec 
-  <a href="https://github.com/camillefrancon">Camille Francon</a>,
-  <a href="https://github.com/Orlogskapten">Wenceslas Sanchez</a> et
-    <a href="https://github.com/khaledlarbi">Khaled Larbi</a>.
-</div>
+En collaboration avec :
+ - [Camille Francon](https://github.com/camillefrancon)
+ - [Wenceslas Sanchez](https://github.com/Orlogskapten)
+ - [Khaled Larbi](https://github.com/khaledlarbi)
 
 
 ## Sommaire
