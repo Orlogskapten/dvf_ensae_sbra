@@ -1,6 +1,6 @@
 <h1 align="center">:house: Prévision du prix de l'immobilier parisien à l'aide de DVF &Co :house:</h1>
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/cd93f2ba-112f-453c-b445-c5cd3ddb8cb5/deploy-status)](https://app.netlify.com/sites/wenceslas/deploys) [![Heroku App Status](http://heroku-shields.herokuapp.com/parismutation)](https://parismutation.herokuapp.com)
+[![Heroku App Status](http://heroku-shields.herokuapp.com/parismutation)](https://parismutation.herokuapp.com)
 
 
 <div align="center">
@@ -17,7 +17,7 @@
 
 ## Sommaire
 - [But](#but)
-- [SiteWeb](#siteweb)
+- [GitHub-Pages](#github-pages)
 
 
 ## But
@@ -29,21 +29,21 @@ Nous nous sommes concentrés sur Paris (en dépit d'avoir 64 go de RAM :cry:) po
 - les critères d'appréciation et **les notes de Paris** par arrondissement (noté par les habitants). Ces informations ont été scrappé sur le site [Ville-idéale](https://www.ville-ideale.fr/). Le script qui permet de scrapper est disponilbe [ici](https://github.com/Orlogskapten/dvf_ensae_sbra/blob/master/script/ville_ideale_scraping.py)
 - les données sur **les équipements à proximité des logements**. Le dataset est disponible [ici](https://www.insee.fr/fr/statistiques/fichier/3568638/bpe19_ensemble_xy_csv.zip). Un gros travail a été nécessaire pour rattacher ces données à la table DVF que vous retrouverez [ici](https://github.com/Orlogskapten/dvf_ensae_sbra/blob/master/khaled/notebook/localisation_service_bpe.ipynb).
 
-## SiteWeb
+## GitHub-Pages
 
 
 Nous avons développé dans le cadre de ce projet **un dashboard intéractif** pour mettre en avant les principales variables disponibles dans notre dataset dont voici un aperçu :
 
 <p align="center">
-  <a href="https://wenceslas.netlify.app/projects/parismutation/">
+  <a href="https://orlogskapten.github.io/dvf_ensae_sbra/#dashboard">
   <img src="./img/dashboard.png" width="738">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://wenceslas.netlify.app/projects/parismutation/">
+  <a href="https://orlogskapten.github.io/dvf_ensae_sbra/#dashboard">
   <img src="./img/dashboard2.png" height="700">
   </a>
 </p>
 
-Il est disponible sur [cette page](https://wenceslas.netlify.app/projects/parismutation/) et en app [ici](https://parismutation.herokuapp.com/).
+Il est disponible sur [cette page](https://orlogskapten.github.io/dvf_ensae_sbra/#dashboard) et en app [ici](https://parismutation.herokuapp.com/).
