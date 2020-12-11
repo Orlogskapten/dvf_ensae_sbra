@@ -1,0 +1,9 @@
+extraction_merging : extraction des données DVF
+analyse_and_treat : premier prise en main de la base de données DVF
+
+analyse_filosofi : analyse des premiers éléments de filosofi TODO par khaled : réécrire proprement des passages
+jointure_mutation_filosofi : faire le lien entre la position d'un bien dans DVF et le carreau auquel il appartient
+localisation_service_bpe : associer les services les plus proches d'un bien 
+analyse_mise_en_forme_avant_modelisation : analyse avant modélisation
+
+modelisation_wen
