@@ -2,3 +2,5 @@ good_data/donnees_model/*.csv filter=lfs diff=lfs merge=lfs -text
 good_data/bpe/*.csv filter=lfs diff=lfs merge=lfs -text
 good_data/filosofi/metropole/* filter=lfs diff=lfs merge=lfs -text
 good_data/r11/* filter=lfs diff=lfs merge=lfs -text
+good_data/filo_service/* filter=lfs diff=lfs merge=lfs -text
+good_data/paris_mutation_filo/* filter=lfs diff=lfs merge=lfs -text
