@@ -17,8 +17,8 @@
 
 ## Sommaire
 - [But](#but)
-- [GitHub-Pages](#github-pages)
 - [Résultats](#résultats)
+- [GitHub-Pages](#github-pages)
 
 ----
 Les données sont [disponibles ici temporairement](https://drive.google.com/drive/folders/1jNVEkmhRgsNgsXHlyKPRbNdJiBnFMHr_?usp=sharing).
