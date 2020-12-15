@@ -18,6 +18,7 @@
 ## Sommaire
 - [But](#but)
 - [GitHub-Pages](#github-pages)
+- [Résultats](#résultats)
 
 ----
 Les données sont [disponibles ici temporairement](https://drive.google.com/drive/folders/1jNVEkmhRgsNgsXHlyKPRbNdJiBnFMHr_?usp=sharing).
@@ -31,6 +32,15 @@ Nous nous sommes concentrés sur Paris (en dépit d'avoir 64 go de RAM :cry:) po
 - les données **FiLoSoFi** publié par l'INSEE qui fournissent des informations sur les caractéristiques des ménages au sein d'un carroyage (de 200m pour notre part), disponible [ici](https://www.data.gouv.fr/fr/datasets/donnees-carroyees-issues-du-dispositif-sur-les-revenus-localises-fiscaux-et-sociaux-filosofi/).
 - les critères d'appréciation et **les notes de Paris** par arrondissement (noté par les habitants). Ces informations ont été scrappé sur le site [Ville-idéale](https://www.ville-ideale.fr/). Le script qui permet de scrapper est disponilbe [ici](https://github.com/Orlogskapten/dvf_ensae_sbra/blob/master/script/ville_ideale_scraping.py)
 - les données sur **les équipements à proximité des logements**. Le dataset est disponible [ici](https://www.insee.fr/fr/statistiques/fichier/3568638/bpe19_ensemble_xy_csv.zip). Un gros travail a été nécessaire pour rattacher ces données à la table DVF que vous retrouverez [ici](https://github.com/Orlogskapten/dvf_ensae_sbra/blob/master/khaled/notebook/localisation_service_bpe.ipynb).
+
+## Résultats
+
+| Modèle |      RMSE     | Gagnant |
+|:----:|:----------------:|:----:|
+| LightGBM |      140786.01      | :crown: |
+| SVR |    205309.53   | :cry: |
+| RandomForest |    143325.41   | :cry: |
+
 
 ## GitHub-Pages
 
