@@ -5,8 +5,12 @@
 
 <div align="center">
   <strong>Projet Python 2ème année de l'ENSAE</strong>
+</div>
+<div align="center">
   <strong>La présentation du projet est <a href="https://github.com/camillefrancon">disponible ici</a></strong>
 </div>
+
+<strong>La présentation du projet est <a href="https://github.com/camillefrancon">disponible ici</a></strong>
 
 <div align="center">
   <sub>En collaboration avec 
