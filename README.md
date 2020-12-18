@@ -5,6 +5,7 @@
 
 <div align="center">
   <strong>Projet Python 2ème année de l'ENSAE</strong>
+  <strong>La présentation du projet est <a href="https://github.com/camillefrancon">disponible ici</a></strong>
 </div>
 
 <div align="center">
